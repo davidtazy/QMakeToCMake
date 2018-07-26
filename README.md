@@ -1,10 +1,10 @@
 # QMakeToCMake [![Build Status](https://travis-ci.org/davidtazy/QMake2CMake.svg?branch=master)](https://travis-ci.org/davidtazy/QMake2CMake) [![Coverage Status](https://coveralls.io/repos/github/davidtazy/QMake2CMake/badge.svg?branch=master&service=github)](https://coveralls.io/github/davidtazy/QMake2CMake?branch=master&service=github)
 Helper script to move qmake (Qt5) based subdirs/project to cmake
 
-Warning: its not bullet proof, 
-main goal is too speed up manual operation 
+Warning: it's not bullet proof,
+main goal is to speed up manual operation
 
-will be usefull if lots of pro file to convert
+It will be useful if there are lots of .pro files to convert
 
 # Features:
 - TEMPLATE=subdirs,  you may need to re-order add_subdirectoies lines
@@ -21,7 +21,7 @@ will be usefull if lots of pro file to convert
 - DEFINES
 - INCLUDEPATH
 - CONFIG values and custom variable can define new lines on cmakelist.txt with a json config file (see [example/config.json](example/config.json))
-- 
+
 # Examples
 
 libToto.pro:
@@ -64,24 +64,26 @@ install(TARGETS Toto DESTINATION Libs)
 ```
 # Limitations
 
+q2c does not read correctly conditional blocks:
 ```
-q2c does not read correctly conditionnal blocks:
 CONTAINS(CONFIG,featureXXX): QT+= printsupport
-will be omited during parse
+```
+will be omitted during parse
 
+However, blockIf AND blockElse will be parsed :
+```
 CONTAINS(CONFIG,featureXXX){
 blockIf
 }else{
 blockElse
 }
-blockIf AND blockElse will be parsed 
 ```
 
 # Usage:
 
-download or clone
+Download+extract archive or clone repo, then :
 ```
-cd to QMakeToCMake
+cd QMakeToCMake
 
 pip install .
 # will install commandline app named 'q2c'
@@ -97,4 +99,16 @@ optional arguments:
   -r, --recursive  all .pro in directory tree
   -s, --show       show result file(s) , use it with recursive option to survey operations
   -s, --config     json file defining dictionnary between CONFIG values in .pro file and cmake function
+```
+
+# Development (draft)
+
+```
+sudo apt install virtualenv
+cd QMakeToCMake
+virtualenv . # XXX maybe you should do that in another dir ? it will add bin/ include/ lib/ local/ share/
+# the first time could take some time
+. bin/activate
+pip install .
+python -m unittest discover -s q2c
 ```
