@@ -4,11 +4,10 @@ import os
 
 
 class QMakeToCMake:
-    Modules = ['Core', 'Widgets', 'Gui', 'Network', 'Sql', 'Multimedia', 'WebKit', 'Svg', 'OpenGL', 'PrintSupport',
-               'Script', 'Xml', 'XmlPatterns', 'Qml', 'Positioning', 'Quick', 'Sensors', 'Sql', 'Declarative','Test']
-    LowerCaseModules = ['core', 'widgets', 'gui', 'network', 'sql', 'multimedia', 'webkit', 'svg', 'opengl',
-                        'printsupport', 'script', 'xml', 'xmlPatterns', 'qml', 'positioning', 'quick', 'sensors', 'sql',
-                        'declarative','testlib']
+    _Modules = ['Core', 'Widgets', 'Gui', 'Network', 'Sql', 'Multimedia', 'WebKit', 'Svg', 'OpenGL', 'PrintSupport',
+               'Script', 'Xml', 'XmlPatterns', 'Qml', 'Positioning', 'Quick', 'Sensors', 'Sql', 'Declarative']  # temporary variable
+    _ModulesSpecialNaming = [('testlib', 'Test')]  # temporary variable
+    _ModulesToQt = dict([(x.lower(), x) for x in _Modules] + _ModulesSpecialNaming)  # used in ToQtModule
 
     def __init__(self):
         self.config_visitor = None
@@ -19,12 +18,7 @@ class QMakeToCMake:
 
     @staticmethod
     def ToQtModule(module):
-
-        l_module = module.lower()
-        if l_module not in QMakeToCMake.LowerCaseModules:
-            return None
-
-        return QMakeToCMake.Modules[QMakeToCMake.LowerCaseModules.index(l_module)]
+        return QMakeToCMake._ModulesToQt.get(module.lower(), None)
 
     def convert(self, pro_file):
         qmake = QMakeParser()
