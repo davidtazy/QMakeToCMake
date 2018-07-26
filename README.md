@@ -100,3 +100,15 @@ optional arguments:
   -s, --show       show result file(s) , use it with recursive option to survey operations
   -s, --config     json file defining dictionnary between CONFIG values in .pro file and cmake function
 ```
+
+# Development (draft)
+
+```
+sudo apt install virtualenv
+cd QMakeToCMake
+virtualenv . # XXX maybe you should do that in another dir ? it will add bin/ include/ lib/ local/ share/
+# the first time could take some time
+. bin/activate
+pip install .
+python -m unittest discover -s q2c
+```
